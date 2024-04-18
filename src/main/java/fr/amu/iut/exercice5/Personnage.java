@@ -77,11 +77,14 @@ abstract class Personnage extends Group {
         if (!direction.equals("haut")) {
             direction = "haut";
         }
-
     }
 
     boolean estEnCollision(Personnage autrePersonnage) {
         return getBoundsInParent().contains(autrePersonnage.getBoundsInParent())
                 || autrePersonnage.getBoundsInParent().contains(getBoundsInParent());
+    }
+    boolean estEnCollision(Obstacles obs) {
+        return getBoundsInParent().contains(obs.getBoundsInParent())
+                || obs.getBoundsInParent().contains(getBoundsInParent());
     }
 }

@@ -12,6 +12,7 @@ public class JeuMain extends Application {
 
     private Scene scene;
     private BorderPane root;
+    Obstacles rec = new Obstacles(300,200,100,300);
 
     @Override
     public void start(Stage primaryStage) {
@@ -55,27 +56,51 @@ public class JeuMain extends Application {
             switch (event.getCode()) {
                 case LEFT:
                     j1.deplacerAGauche();
+                    if(j1.estEnCollision(rec)){
+                        j1.deplacerADroite(scene.getWidth());
+                    }
                     break;
                 case RIGHT:
                     j1.deplacerADroite(scene.getWidth());
+                    if(j1.estEnCollision(rec)){
+                        j1.deplacerAGauche();
+                    }
                     break;
                 case UP:
                     j1.deplacerEnHaut();
+                    if(j1.estEnCollision(rec)){
+                        j1.deplacerEnBas(scene.getHeight());
+                    }
                     break;
                 case DOWN:
                     j1.deplacerEnBas(scene.getHeight());
+                    if(j1.estEnCollision(rec)){
+                        j1.deplacerEnHaut();
+                    }
                     break;
                 case Z:
                     j2.deplacerEnHaut();
+                    if(j2.estEnCollision(rec)){
+                        j2.deplacerEnBas(scene.getHeight());
+                    }
                     break;
                 case S:
                     j2.deplacerEnBas(scene.getHeight());
+                    if(j2.estEnCollision(rec)){
+                        j2.deplacerEnHaut();
+                    }
                     break;
                 case Q:
                     j2.deplacerAGauche();
+                    if(j2.estEnCollision(rec)){
+                        j2.deplacerADroite(scene.getWidth());
+                    }
                     break;
                 case D:
                     j2.deplacerADroite(scene.getWidth());
+                    if(j2.estEnCollision(rec)){
+                        j2.deplacerAGauche();
+                    }
                     break;
 
             }
@@ -83,7 +108,6 @@ public class JeuMain extends Application {
                 System.out.println("Collision....");
                 Platform.exit();
             }
-
         });
     }
 

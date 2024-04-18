@@ -9,4 +9,5 @@ public class Obstacles extends Rectangle {
         setFill(Color.RED);
     }
 
+
 }
