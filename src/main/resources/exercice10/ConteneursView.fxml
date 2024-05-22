@@ -1,2 +1,62 @@
 <?import javafx.scene.layout.BorderPane?>
-<BorderPane></BorderPane>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.TextField?>
+<BorderPane fx:controller="fr.amu.iut.exercice10.Conteneurs" xmlns:fx="http://javafx.com/fxml/1">
+    <top>
+        <MenuBar fx:id="menuBar">
+            <Menu fx:id="menu1" text="File">
+                <MenuItem text="New"></MenuItem>
+                <MenuItem text="Open"></MenuItem>
+                <MenuItem text="Save"></MenuItem>
+                <MenuItem text="Close"></MenuItem>
+            </Menu>
+            <Menu fx:id="menu2" text="Edit">
+                <MenuItem text="Cut"></MenuItem>
+                <MenuItem text="Copy"></MenuItem>
+                <MenuItem text="Paste"></MenuItem>
+            </Menu>
+            <Menu fx:id="menu3" text="Help"></Menu>
+        </MenuBar>
+    </top>
+    <left>
+        <HBox>
+            <VBox id="gauche" alignment="CENTER" spacing="10">
+                <Text text="Boutons :"></Text>
+                <Button text="Bouton 1"></Button>
+                <Button text="Bouton 2"></Button>
+                <Button text="Bouton 3"></Button>
+            </VBox>
+            <Separator orientation="VERTICAL"></Separator>
+        </HBox>
+    </left>
+    <center>
+        <GridPane id="center" hgap="10" vgap="10" alignment="CENTER">
+            <Text text="Name:" GridPane.columnIndex="0" GridPane.rowIndex="0"></Text>
+            <TextField GridPane.columnIndex="1" GridPane.rowIndex="0"></TextField>
+            <Text text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="1"></Text>
+            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1"></TextField>
+            <Text text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="2"></Text>
+            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2"></TextField>
+            <VBox id="mid1" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                <HBox id="mid" spacing="10">
+                    <Button text="Submit"></Button>
+                    <Button text="Cancel"></Button>
+                </HBox>
+            </VBox>
+        </GridPane>
+    </center>
+    <bottom>
+        <VBox alignment="CENTER">
+            <Separator orientation="HORIZONTAL"></Separator>
+            <Text text="Ceci est un label de bas de page"></Text>
+        </VBox>
+    </bottom>
+</BorderPane>
