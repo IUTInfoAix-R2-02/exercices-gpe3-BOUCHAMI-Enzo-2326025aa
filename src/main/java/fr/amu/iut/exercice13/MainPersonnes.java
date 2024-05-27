@@ -1,11 +1,12 @@
-package fr.amu.iut.exercice3;
+package fr.amu.iut.exercice13;
 
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 @SuppressWarnings("Duplicates")
-public class MainPersonnes  {
+public class MainPersonnes {
 
     private static ObservableList<Personne> lesPersonnes;
 
@@ -13,11 +14,26 @@ public class MainPersonnes  {
 
     public static void main(String[] args) {
 
-        lesPersonnes = FXCollections.observableArrayList();
+        lesPersonnes = FXCollections.observableArrayList(personne -> new Observable[]{personne.ageProperty()});
 
-//        unChangementListener = à completer
+        unChangementListener = change -> {
+            while (change.next()) {
+                if (change.wasAdded()) {
+                    System.out.println("Personne ajoutée : " + change.getAddedSubList().get(0).getNom());
+                }
+                if (change.wasRemoved()) {
+                    for (int i = 0; i < change.getRemovedSize(); i++) {
+                        System.out.println("Personne effacé : " + change.getRemoved().get(i).getNom());
+                    }
+                }
+                if (change.wasUpdated()) {
+                    System.out.println(change.getList().get(change.getFrom()).getNom() + " a maintenant : " + change.getList().get(change.getFrom()).getAge() + " ans");
+                }
+            }
+        };
 
         lesPersonnes.addListener(unChangementListener);
+        question5();
     }
 
     public static void question1() {
@@ -28,6 +44,7 @@ public class MainPersonnes  {
         lesPersonnes.add(paul);
         lesPersonnes.add(jacques);
     }
+
 
     public static void question2() {
         Personne pierre = new Personne("Pierre", 20);
@@ -49,6 +66,7 @@ public class MainPersonnes  {
         paul.setAge(5);
     }
 
+
     public static void question5() {
         Personne pierre = new Personne("Pierre", 20);
         Personne paul = new Personne("Paul", 40);
@@ -59,4 +77,3 @@ public class MainPersonnes  {
         lesPersonnes.removeAll(paul, pierre);
     }
 }
-
