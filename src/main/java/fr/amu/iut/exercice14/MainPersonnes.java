@@ -1,12 +1,12 @@
-package fr.amu.iut.exercice4;
+package fr.amu.iut.exercice14;
 
 import javafx.beans.binding.IntegerBinding;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 
-@SuppressWarnings("Duplicates")
 public class MainPersonnes {
 
     private static SimpleListProperty<Personne> lesPersonnes;
@@ -14,15 +14,86 @@ public class MainPersonnes {
     private static IntegerProperty nbParisiens;
 
     private static IntegerBinding calculAgeMoyen;
-    private static IntegerBinding calculnbParisiens;
+    private static IntegerBinding calculNbParisiens;
 
     public static void main(String[] args) {
 
         lesPersonnes = new SimpleListProperty<>(FXCollections.observableArrayList());
         ageMoyen = new SimpleIntegerProperty(0);
+        nbParisiens = new SimpleIntegerProperty(0);
+
+        calculAgeMoyen = new IntegerBinding() {
+            {
+                super.bind(lesPersonnes);
+                lesPersonnes.addListener((ListChangeListener<Personne>) c -> {
+                    while (c.next()) {
+                        if (c.wasAdded() || c.wasRemoved()) {
+                            for (Personne p : c.getAddedSubList()) {
+                                super.bind(p.ageProperty());
+                            }
+                            for (Personne p : c.getRemoved()) {
+                                super.unbind(p.ageProperty());
+                            }
+                            super.invalidate();
+                        }
+                    }
+                });
+            }
+
+            @Override
+            protected int computeValue() {
+                if (lesPersonnes.isEmpty()) {
+                    return 0;
+                }
+                int totalAge = 0;
+                for (Personne p : lesPersonnes) {
+                    totalAge += p.getAge();
+                }
+                return totalAge / lesPersonnes.size();
+            }
+        };
+
+        ageMoyen.bind(calculAgeMoyen);
+
+        calculNbParisiens = new IntegerBinding() {
+            {
+                super.bind(lesPersonnes);
+                lesPersonnes.addListener((ListChangeListener<Personne>) c -> {
+                    while (c.next()) {
+                        if (c.wasAdded() || c.wasRemoved() || c.wasUpdated()) {
+                            for (Personne p : c.getAddedSubList()) {
+                                super.bind(p.villeDeNaissanceProperty());
+                            }
+                            for (Personne p : c.getRemoved()) {
+                                super.unbind(p.villeDeNaissanceProperty());
+                            }
+                            super.invalidate();
+                        }
+                        if (c.wasUpdated()) {
+                            for (Personne p : lesPersonnes) {
+                                p.villeDeNaissanceProperty().addListener((obs, oldVal, newVal) -> super.invalidate());
+                            }
+                        }
+                    }
+                });
+            }
+
+            @Override
+            protected int computeValue() {
+                int count = 0;
+                for (Personne p : lesPersonnes) {
+                    if ("Paris".equals(p.getVilleDeNaissance())) {
+                        count++;
+                    }
+                }
+                return count;
+            }
+        };
+
+        nbParisiens.bind(calculNbParisiens);
 
         question1();
-//        question2();
+        question2();
     }
 
     public static void question1() {
@@ -52,6 +123,4 @@ public class MainPersonnes {
             p.setVilleDeNaissance("Paris");
         System.out.println("Il y a " + nbParisiens.getValue() + " parisiens");
     }
-
 }
-

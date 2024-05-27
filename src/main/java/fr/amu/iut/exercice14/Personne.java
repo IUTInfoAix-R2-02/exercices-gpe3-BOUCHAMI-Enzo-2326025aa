@@ -1,4 +1,4 @@
-package fr.amu.iut.exercice4;
+package fr.amu.iut.exercice14;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -22,6 +22,22 @@ public class Personne {
     }
 
     public void setVilleDeNaissance(String ville) {
-        villeDeNaissance.setValue(ville);
+        this.villeDeNaissance.setValue(ville);
+    }
+
+    public int getAge() {
+        return age.get();
+    }
+
+    public IntegerProperty ageProperty() {
+        return age;
+    }
+
+    public String getVilleDeNaissance() {
+        return villeDeNaissance.get();
+    }
+
+    public StringProperty villeDeNaissanceProperty() {
+        return villeDeNaissance;
     }
 }
